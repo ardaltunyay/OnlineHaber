@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/my_navigation"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/detailFragment"
+        android:name="mobi.appcent.onlinehaber.ui.detail.DetailFragment"
+        android:label="DetailFragment" >
+        <action
+            android:id="@+id/action_detailFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+        <argument
+            android:name="newsUuİd"
+            app:argType="integer"
+            android:defaultValue="0" />
+        <argument
+            android:name="title"
+            app:argType="string" />
+        <argument
+            android:name="people"
+            app:argType="string" />
+        <argument
+            android:name="date"
+            app:argType="string" />
+        <argument
+            android:name="news"
+            app:argType="string" />
+        <argument
+            android:name="image"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="mobi.appcent.onlinehaber.ui.home.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_detailFragment"
+            app:destination="@id/detailFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_countryAndLanguegeFragment"
+            app:destination="@id/countryAndLanguegeFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
+    </fragment>
+    <dialog
+        android:id="@+id/countryAndLanguegeFragment"
+        android:name="mobi.appcent.onlinehaber.ui.countryAndLanguege.CountryAndLanguegeFragment"
+        android:label="fragment_country_and_languege_list_dialog"
+        tools:layout="@layout/fragment_country_and_languege_list_dialog" />
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="mobi.appcent.onlinehaber.ui.search.SearchFragment"
+        android:label="SearchFragment" >
+        <action
+            android:id="@+id/action_searchFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+</navigation>
