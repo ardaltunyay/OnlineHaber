@@ -8,7 +8,7 @@ import retrofit2.http.Query
 
 interface NewsAPI {
 
-
+    //TODO Aşağıdakiler gibi düzenli olması daha iyi olur
     @GET("everything")
     fun getNews(
         @Query("q") currentType: String

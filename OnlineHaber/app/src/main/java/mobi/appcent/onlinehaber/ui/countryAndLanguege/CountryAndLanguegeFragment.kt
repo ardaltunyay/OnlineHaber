@@ -20,6 +20,10 @@ import mobi.appcent.onlinehaber.ui.home.HomeViewModel
 
 class CountryAndLanguegeFragment : BottomSheetDialogFragment() {
 
+    /*
+    * TODO Log için tag verirken daha anlamlı şeyler kullanman işini kolaylaştıracaktır :D
+    *  SharedPreferences işlemleri için sadece o işlemlere özel bir sınıf oluşturabilirsin (Util klasörü içinde)
+    * */
 
     private lateinit var viewModel: HomeViewModel
 

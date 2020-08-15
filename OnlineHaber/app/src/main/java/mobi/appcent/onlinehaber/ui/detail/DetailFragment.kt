@@ -12,6 +12,10 @@ import mobi.appcent.onlinehaber.R
 
 
 class DetailFragment : Fragment() {
+    /*
+    * TODO Webview yüklenene kadar ekran çok boş kalıyor.
+    *  WebView yüklenene kadar progress çıkarman daha iyi olur.
+    * */
 
     private lateinit var viewModel: DetailViewModel
     private var newsUuid = 0

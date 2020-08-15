@@ -20,6 +20,12 @@ class HomePageAdapter(val newsList: ArrayList<ArticlesItem>) :
     RecyclerView.Adapter<HomePageAdapter.HomePageViewHolder>() {
     class HomePageViewHolder(var view: View) : RecyclerView.ViewHolder(view) {
 
+        /*
+        * TODO Burda bir metod açıp onBindViewHolder içinde yaptığın işlemleri yapman daha sağlıklı olur.
+        *  Açtığın metodu da onBindViewHolder da çağırabilirsin
+        *  Yaptığın şeyler HomePageViewHolder için yaptığın işlemler.
+        *  HomePageViewHolder'ı başka bir yerde kullanman gerektiğinde kod tekrarı da yapmamış olursun.
+        * */
 
     }
 
@@ -41,7 +47,11 @@ class HomePageAdapter(val newsList: ArrayList<ArticlesItem>) :
             placeHolderProgressBar(holder.view.context)
         )
 
-
+        /*
+        * TODO Bu değişkenlerin değerini değiştirmen gerekmediği için "var" yerine "val" kullanabilirsin.
+        *  Zaten Android Studio da sana bunu önermiştir.
+        *  Önerileri takip edip mantıklı gelenleri uygulayabilirsin
+        * */
         var people = newsList[position].url
         var title = newsList[position].title
         var date = newsList[position].publishedAt
