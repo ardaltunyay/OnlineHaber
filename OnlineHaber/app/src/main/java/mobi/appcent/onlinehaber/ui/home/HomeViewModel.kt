@@ -24,7 +24,7 @@ class HomeViewModel : ViewModel() {
     * */
 
     fun homeApiCall() {
-        getDataApı()
+        homeGetDataApi()
     }
 
     fun DetailApiCall(country: String) {
@@ -45,7 +45,7 @@ class HomeViewModel : ViewModel() {
         getDataApııı(currentType, countryText, hoodText, language, from, date, sortBy)
     }
 
-    private fun getDataApı() {
+    private fun homeGetDataApi() {
         /*
         * TODO Bu apiKey'i her yere böyle manuel yazman doğru değil.
         *  Bir yerde saklayıp hep ordan kullanman daha iyi.
