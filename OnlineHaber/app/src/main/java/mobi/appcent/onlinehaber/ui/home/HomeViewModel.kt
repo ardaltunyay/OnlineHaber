@@ -29,7 +29,7 @@ class HomeViewModel : ViewModel() {
 
     fun DetailApiCall(country: String) {
 
-        getDataApıı(country)
+        detailGetApi(country)
     }
 
     fun searchApiCall(
@@ -71,7 +71,7 @@ class HomeViewModel : ViewModel() {
     }
 
     /*https://newsapi.org/v2/top-headlines?country=us&apiKey=632731ff030d44a3885c56f99b626125*/
-    public fun getDataApıı(country: String) {
+    public fun detailGetApi(country: String) {
         /*
         * TODO Servis isteklerinden önce disposable kullanman doğru ama viewModel sonlanırken disposable temizlemen gerekiyor.
         *  Bunu bir araştır derim.
