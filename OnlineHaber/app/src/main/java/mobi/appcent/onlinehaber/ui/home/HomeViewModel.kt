@@ -42,7 +42,7 @@ class HomeViewModel : ViewModel() {
         sortBy: String
     ) {
 
-        getDataApııı(currentType, countryText, hoodText, language, from, date, sortBy)
+        searchGetApi(currentType, countryText, hoodText, language, from, date, sortBy)
     }
 
     private fun homeGetDataApi() {
@@ -96,7 +96,7 @@ class HomeViewModel : ViewModel() {
 
     }
 
-    public fun getDataApııı(
+    public fun searchGetApi(
         currentType: String,
         countryText: String,
         hoodText: String,
