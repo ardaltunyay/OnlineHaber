@@ -27,6 +27,10 @@ import kotlin.collections.ArrayList
 
 class SearchFragment : Fragment() {
 
+    /*
+    * TODO Dil ve Ülke alanları için recyclerview kullansan daha iyi olabilir
+    * */
+
     private lateinit var viewModel: HomeViewModel
     private val newsAdapter = HomePageAdapter(arrayListOf())
 

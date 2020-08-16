@@ -14,6 +14,7 @@ class NewsAPIService {
 
     private val okHttpClient = OkHttpClient.Builder()
         .addInterceptor(HttpLoggingInterceptor().apply {
+            //TODO Uygulama sadece DEBUG modda çalışıyorsa loglar açık olsun
             level = HttpLoggingInterceptor.Level.BODY
         })
         .build()

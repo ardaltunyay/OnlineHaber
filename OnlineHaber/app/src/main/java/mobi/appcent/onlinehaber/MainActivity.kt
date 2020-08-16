@@ -14,7 +14,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-
+    //TODO Kullanmadığın veya yoruma aldığın şeyleri kaldırabilirsin
     fun fragmentCreate() {
         val fragmentManager = supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
