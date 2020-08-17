@@ -1,7 +1,5 @@
 package mobi.appcent.onlinehaber.service
 
-import io.reactivex.Single
-import mobi.appcent.onlinehaber.model.Response
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -10,17 +8,16 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class NewsAPIService {
 
-    private val BASE_URL = "http://newsapi.org/v2/"
+
 
     private val okHttpClient = OkHttpClient.Builder()
         .addInterceptor(HttpLoggingInterceptor().apply {
-            //TODO Uygulama sadece DEBUG modda çalışıyorsa loglar açık olsun
-            level = HttpLoggingInterceptor.Level.BODY
+           // level = HttpLoggingInterceptor.Level.BODY
         })
         .build()
 
     private val api = Retrofit.Builder()
-        .baseUrl(BASE_URL)
+        .baseUrl(BaseURL.BASE_URL)
         .client(okHttpClient)
         .addConverterFactory(GsonConverterFactory.create())
         .addCallAdapterFactory(RxJava2CallAdapterFactory.create())

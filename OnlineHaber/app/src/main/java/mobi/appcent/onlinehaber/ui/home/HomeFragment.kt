@@ -65,8 +65,31 @@ class HomeFragment : Fragment() {
                 newsAdapter.updateCountryList(news)
             }
 
+
+
         })
 
+
+        viewModel.loadingProgres.observe(viewLifecycleOwner, Observer { loading ->
+
+            loading?.let {
+                if (it)
+                {
+
+                    recyclerView.visibility=View.GONE
+                    progresbar.visibility=View.VISIBLE
+                }
+                else
+                {
+                    recyclerView.visibility=View.VISIBLE
+                    progresbar.visibility=View.GONE
+
+                }
+
+            }
+
+
+        })
 
     }
 

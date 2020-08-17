@@ -16,8 +16,8 @@ data class ArticlesItem(
     @SerializedName("description")
     val description: String? = null,
 
-    @SerializedName("source")
-    val source: Source? = null,
+  //  @SerializedName("source")
+  //  val source: Source? = null,
 
     @SerializedName("title")
     val title: String? = null,

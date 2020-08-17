@@ -151,6 +151,19 @@
                         android:layout_marginLeft="30dp"
                         android:layout_marginTop="10sp"
                         android:layout_marginRight="30dp" />
+                  <LinearLayout
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_gravity="center"
+                      android:orientation="vertical">
+
+                      <ProgressBar
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:id="@+id/progresbar"/>
+                  </LinearLayout>
+
+
                 </LinearLayout>
 
             </androidx.core.widget.NestedScrollView>

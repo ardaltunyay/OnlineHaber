@@ -10,17 +10,8 @@ class MainActivity : AppCompatActivity() {
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        //fragmentCreate()
-
-    }
-
-    //TODO Kullanmadığın veya yoruma aldığın şeyleri kaldırabilirsin
-    fun fragmentCreate() {
-        val fragmentManager = supportFragmentManager
-        val fragmentTransaction = fragmentManager.beginTransaction()
-        val firstFragment = HomeFragment()
-        fragmentTransaction.add(R.id.frameLayout, firstFragment).commit()
 
 
     }
+
 }

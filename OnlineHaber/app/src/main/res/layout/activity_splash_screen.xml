@@ -3,24 +3,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="#fff"
     android:layout_height="match_parent"
     tools:context=".ui.splash.SplashScreenActivity">
 
-    <!--
-    TODO
-     Görseller için mümkün oldukça wrap_content kullanmayı seçsen iyi olur.
-     Width ya da Height kullanacaksanda bir tanesini wrap_content yapıp
-     android:adjustViewBounds="true" yaparsan değer verdiğine göre diğer
-     ölçüyü oranlar. Böylece görselin oranı bozulmaz.
-     Basık veya uzun gözükmez
-    -->
-    <ImageView
-        android:layout_width="146dp"
-        android:layout_height="82dp"
-        android:layout_centerInParent="true"
-        android:background="@drawable/group">
 
-        <!-- TODO ProgressBar eksik   -->
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:layout_centerInParent="true"
+        android:background="@drawable/splash">
 
 
     </ImageView>

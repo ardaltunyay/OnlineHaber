@@ -18,14 +18,10 @@ import kotlin.collections.ArrayList
 class HomePageAdapter(val newsList: ArrayList<ArticlesItem>) :
 
     RecyclerView.Adapter<HomePageAdapter.HomePageViewHolder>() {
+
     class HomePageViewHolder(var view: View) : RecyclerView.ViewHolder(view) {
 
-        /*
-        * TODO Burda bir metod açıp onBindViewHolder içinde yaptığın işlemleri yapman daha sağlıklı olur.
-        *  Açtığın metodu da onBindViewHolder da çağırabilirsin
-        *  Yaptığın şeyler HomePageViewHolder için yaptığın işlemler.
-        *  HomePageViewHolder'ı başka bir yerde kullanman gerektiğinde kod tekrarı da yapmamış olursun.
-        * */
+
 
     }
 
@@ -40,6 +36,20 @@ class HomePageAdapter(val newsList: ArrayList<ArticlesItem>) :
     }
 
     override fun onBindViewHolder(holder: HomePageViewHolder, position: Int) {
+
+        onBindViewHolderFunction(holder,position)
+    }
+
+
+    fun updateCountryList(newCountryList: List<ArticlesItem>) {
+
+
+        newsList.clear()
+        newsList.addAll(newCountryList)
+        notifyDataSetChanged()
+
+    }
+    fun onBindViewHolderFunction(holder: HomePageViewHolder, position: Int){
         holder.view.homePageTitleTextView.text = newsList[position].title
         holder.view.homePageContentTextView.text = newsList[position].description
         holder.view.homePageImageView.downloadFromUrl(
@@ -47,16 +57,11 @@ class HomePageAdapter(val newsList: ArrayList<ArticlesItem>) :
             placeHolderProgressBar(holder.view.context)
         )
 
-        /*
-        * TODO Bu değişkenlerin değerini değiştirmen gerekmediği için "var" yerine "val" kullanabilirsin.
-        *  Zaten Android Studio da sana bunu önermiştir.
-        *  Önerileri takip edip mantıklı gelenleri uygulayabilirsin
-        * */
-        var people = newsList[position].url
-        var title = newsList[position].title
-        var date = newsList[position].publishedAt
-        var news = newsList[position].content
-        var image = newsList[position].urlToImage
+        val people = newsList[position].url
+        val title = newsList[position].title
+        val date = newsList[position].publishedAt
+        val news = newsList[position].content
+        val image = newsList[position].urlToImage
 
         holder.view.setOnClickListener {
             val action = HomeFragmentDirections.actionHomeFragmentToDetailFragment(
@@ -70,16 +75,6 @@ class HomePageAdapter(val newsList: ArrayList<ArticlesItem>) :
             Navigation.findNavController(it).navigate(action)
 
         }
-    }
-
-
-    fun updateCountryList(newCountryList: List<ArticlesItem>) {
-
-
-        newsList.clear()
-        newsList.addAll(newCountryList)
-        notifyDataSetChanged()
 
     }
-
 }

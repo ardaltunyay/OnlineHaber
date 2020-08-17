@@ -1,6 +1,7 @@
 package mobi.appcent.onlinehaber.ui.countryAndLanguege
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -20,11 +21,8 @@ import mobi.appcent.onlinehaber.ui.home.HomeViewModel
 
 class CountryAndLanguegeFragment : BottomSheetDialogFragment() {
 
-    /*
-    * TODO Log için tag verirken daha anlamlı şeyler kullanman işini kolaylaştıracaktır :D
-    *  SharedPreferences işlemleri için sadece o işlemlere özel bir sınıf oluşturabilirsin (Util klasörü içinde)
-    * */
 
+    val sSharedPreferences=mobi.appcent.onlinehaber.util.SharedPreferences()
     private lateinit var viewModel: HomeViewModel
 
     private val newsAdapter = HomePageAdapter(arrayListOf())
@@ -65,27 +63,27 @@ class CountryAndLanguegeFragment : BottomSheetDialogFragment() {
 
         RadioTurkey.setOnClickListener {
             countryAndLanguageValues = "tr"
-            Log.e("bbbbbbbbbbbbbbbb", "$countryAndLanguageValues")
+
         }
         RadioGermany.setOnClickListener {
             countryAndLanguageValues = "de"
-            Log.e("bbbbbbbbbbbbbbbb", "$countryAndLanguageValues")
+
         }
         RadioABD.setOnClickListener {
             countryAndLanguageValues = "us"
-            Log.e("bbbbbbbbbbbbbbbb", "$countryAndLanguageValues")
+
         }
         RadioSpain.setOnClickListener {
             countryAndLanguageValues = "es"
-            Log.e("bbbbbbbbbbbbbbbb", "$countryAndLanguageValues")
+
         }
         RadioEngland.setOnClickListener {
             countryAndLanguageValues = "ae"
-            Log.e("bbbbbbbbbbbbbbbb", "$countryAndLanguageValues")
+
         }
         RadioFrance.setOnClickListener {
             countryAndLanguageValues = "fr"
-            Log.e("bbbbbbbbbbbbbbbb", "$countryAndLanguageValues")
+
         }
 
 
@@ -95,7 +93,7 @@ class CountryAndLanguegeFragment : BottomSheetDialogFragment() {
 
         select.setOnClickListener {
 
-            viewModel.DetailApiCall("$countryAndLanguageValues")
+            viewModel.detailApiCall("$countryAndLanguageValues")
             observeLiveData()
 
             rememberMe()
@@ -120,19 +118,21 @@ class CountryAndLanguegeFragment : BottomSheetDialogFragment() {
     }
 
     fun rememberMe() {
-        val shared = requireActivity().getSharedPreferences("myPreferences", Context.MODE_PRIVATE)
-
-        Log.e("bbbbbbb", "$countryAndLanguageValues")
-        shared.edit().putString("value", countryAndLanguageValues).commit()
-
+        // sade bu sınıfta kullanacaksam shared preferencesi böyle kullanmalıyım
+       // val shared = requireActivity().getSharedPreferences("myPreferences", Context.MODE_PRIVATE)
+        //  shared.edit().putString("value", countryAndLanguageValues).commit()
+        sSharedPreferences.save(requireContext(),countryAndLanguageValues)
 
     }
 
     fun getRememberData() {
-        var shared = requireActivity().getSharedPreferences("myPreferences", Context.MODE_PRIVATE)
-        var values = shared.getString("value", "")
+        // sade bu sınıfta kullanacaksam shared preferencesi böyle kullanmalıyım
+     //   var shared = requireActivity().getSharedPreferences("myPreferences", Context.MODE_PRIVATE)
+      //  var values = shared.getString("value", "")
+        var values=sSharedPreferences.getValue(requireContext())
+
         countryAndLanguageValues=values
-        Log.e("ggggggggg", "$countryAndLanguageValues")
+
         if ("$values" == "tr") {
             RadioTurkey.isChecked = true
 
