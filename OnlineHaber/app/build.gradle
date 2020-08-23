@@ -27,6 +27,14 @@ dataBinding{
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions{
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+
+    }
 }
 def nav_version = "2.3.0"
 def lifeCycleExtensionVersion = '1.1.1'
@@ -87,3 +95,4 @@ dependencies {
 
     implementation "androidx.preference:preference:$preferencesVersion"
 }
+

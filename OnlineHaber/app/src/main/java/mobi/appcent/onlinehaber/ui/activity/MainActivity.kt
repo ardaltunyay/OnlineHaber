@@ -1,8 +1,8 @@
-package mobi.appcent.onlinehaber
+package mobi.appcent.onlinehaber.ui.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import mobi.appcent.onlinehaber.ui.home.HomeFragment
+import mobi.appcent.onlinehaber.R
 
 class MainActivity : AppCompatActivity() {
 

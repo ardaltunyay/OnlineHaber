@@ -1,7 +1,6 @@
 package mobi.appcent.onlinehaber.ui.search
 
 import android.app.DatePickerDialog
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -18,21 +17,26 @@ import androidx.navigation.fragment.findNavController
 import kotlinx.android.synthetic.main.fragment_search.*
 import mobi.appcent.onlinehaber.R
 import mobi.appcent.onlinehaber.adapter.HomePageAdapter
+import mobi.appcent.onlinehaber.model.ArticlesItem
 import mobi.appcent.onlinehaber.ui.home.HomeViewModel
+import mobi.appcent.onlinehaber.ui.ınterface.RecyclerViewLongListenerInterface
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
 
-class SearchFragment : Fragment() {
+class SearchFragment : Fragment() , RecyclerViewLongListenerInterface {
 
     /*
     * TODO Dil ve Ülke alanları için recyclerview kullansan daha iyi olabilir
     * */
 
+    override fun onLongListeneer(position: Int, list: MutableList<ArticlesItem>) {
+        TODO("Not yet implemented")
+    }
     private lateinit var viewModel: HomeViewModel
-    private val newsAdapter = HomePageAdapter(arrayListOf())
+    private val newsAdapter = HomePageAdapter(arrayListOf(),this)
 
     private lateinit var fragmentmanager: FragmentManager
     private lateinit var fragmenttransiction: FragmentTransaction
