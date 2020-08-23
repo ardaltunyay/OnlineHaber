@@ -1,35 +1,59 @@
 package mobi.appcent.onlinehaber.ui.home
 
+import android.app.Application
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.launch
+import mobi.appcent.onlinehaber.ui.viewModel.BaseViewModel
+import mobi.appcent.onlinehaber.database.NewsDatabase
+
 import mobi.appcent.onlinehaber.model.ArticlesItem
+import mobi.appcent.onlinehaber.model.Favorite
+import mobi.appcent.onlinehaber.service.ApiKey
 import mobi.appcent.onlinehaber.service.NewsAPIService
+import mobi.appcent.onlinehaber.util.CustomSharedPreferences
 
 
-class HomeViewModel : ViewModel() {
+class HomeViewModel(application: Application) : BaseViewModel(application) {
 
+    private var customSharedPreferences=CustomSharedPreferences(getApplication())
     private val newsApiService = NewsAPIService()
-    private val disposable = CompositeDisposable()
+    val disposable = CompositeDisposable()
     var news = MutableLiveData<List<ArticlesItem>>()
-
-    /*
-    * TODO Method isimlendirmelerinde sorun var.
-    *  Türkçe karakter kullanılmaz.
-    *  Projeyi geliştirirken nasıl başladıysan o kuralları devam ettirmelisin.
-    *  Örn: Method isimleri küçük başladıysan hep küçük başlaman sağlıklısı
-    * */
+    var loadingProgres = MutableLiveData<Boolean>()
+    var refreshTime= 10*60*1000*1000*1000L
 
     fun homeApiCall() {
-        getDataApı()
+        val updateTime=customSharedPreferences.getTime()
+        if (updateTime !=null && updateTime !=0L && System.nanoTime()-updateTime<refreshTime)
+        {
+            getDataFromSQLite()
+
+        }
+       else{
+
+            homeGetDataApi()
+        }
     }
 
-    fun DetailApiCall(country: String) {
+    private fun getDataFromSQLite()
+    {
 
-        getDataApıı(country)
+        launch {
+
+            val newss=NewsDatabase(getApplication()).newsDao().getAllNews()
+             showNews(newss)
+            Toast.makeText(getApplication(),"SQL den alındı11",Toast.LENGTH_SHORT).show()
+        }
+
+    }
+    fun detailApiCall(country: String) {
+
+        detailGetApi(country)
     }
 
     fun searchApiCall(
@@ -42,24 +66,21 @@ class HomeViewModel : ViewModel() {
         sortBy: String
     ) {
 
-        getDataApııı(currentType, countryText, hoodText, language, from, date, sortBy)
+        searchGetApi(currentType, countryText, hoodText, language, from, date, sortBy)
     }
 
-    private fun getDataApı() {
-        /*
-        * TODO Bu apiKey'i her yere böyle manuel yazman doğru değil.
-        *  Bir yerde saklayıp hep ordan kullanman daha iyi.
-        *  Örn: Base url'i sakladığın yer olabilir(Bu arada base url olduğu yerde doğru değil aslında ama onu sonra değiştiricez :)
-        * */
+    private fun homeGetDataApi() {
+       loadingProgres.value = true
         disposable.add(
             newsApiService.getNewsApi()
-                .getNews("apple", "2020-08-08,", "popularity", "632731ff030d44a3885c56f99b626125")
+                .getNews("apple", "2020-08-08,", "popularity", ApiKey.API_KEY)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                     {
-                        news.value = it.articles
-                        Log.d("API", it.toString())
+                        it.articles?.let { it1 -> storeInSQLite(it1) }
+                        Toast.makeText(getApplication(),"internetten den alındı11",Toast.LENGTH_SHORT).show()
+
                     },
                     {
                         Log.d("API", it.message)
@@ -68,27 +89,30 @@ class HomeViewModel : ViewModel() {
         )
 
 
+
+    }
+
+   override fun onCleared() {
+        super.onCleared()
+        disposable.clear()
+
     }
 
     /*https://newsapi.org/v2/top-headlines?country=us&apiKey=632731ff030d44a3885c56f99b626125*/
-    public fun getDataApıı(country: String) {
-        /*
-        * TODO Servis isteklerinden önce disposable kullanman doğru ama viewModel sonlanırken disposable temizlemen gerekiyor.
-        *  Bunu bir araştır derim.
-        * */
+    public fun detailGetApi(country: String) {
+        loadingProgres.value = true
         disposable.add(
 
             newsApiService.getNewsApi()
-                .getNewsCountryAndLanguege("$country", "632731ff030d44a3885c56f99b626125")
+                .getNewsCountryAndLanguege("$country", ApiKey.API_KEY)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                     {
                         news.value = it.articles
-                        Log.d("search", it.toString())
                     },
                     {
-                        Log.d("yenii", it.message)
+                        Log.d("ERROR", it.message)
                     }
                 )
         )
@@ -96,7 +120,7 @@ class HomeViewModel : ViewModel() {
 
     }
 
-    public fun getDataApııı(
+    public fun searchGetApi(
         currentType: String,
         countryText: String,
         hoodText: String,
@@ -105,18 +129,19 @@ class HomeViewModel : ViewModel() {
         date: String,
         sortBy: String
     ) {
+        loadingProgres.value = true
         disposable.add(
 
             newsApiService.getNewsApi()
                 .getSearch(
                     "$currentType",
-                    "$countryText",
+                    "",
                     "$hoodText",
                     "$language",
                     "$from",
                     "$date",
                     "$sortBy",
-                    "632731ff030d44a3885c56f99b626125"
+                    ApiKey.API_KEY
                 )
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -132,4 +157,45 @@ class HomeViewModel : ViewModel() {
         )
 
     }
+
+  private fun showNews(newsList: List<ArticlesItem>) {
+        news.value = newsList
+      loadingProgres.value = false
+
+    }
+
+    private fun storeInSQLite(list: List<ArticlesItem>) {
+
+        launch {
+            val dao = NewsDatabase(getApplication()).newsDao()
+            dao.deleteAllNews()
+            val listLong = dao.insertAll(*list.toTypedArray())
+            var i = 0
+            while (i < list.size) {
+                list[i].uuid = listLong[i].toInt()
+                i = i + 1
+
+            }
+           showNews(list)
+         }
+
+customSharedPreferences.saveTime(System.nanoTime())
+    }
+
+    fun favoriteSQLite(list:MutableList<Favorite>)
+    {
+      launch {
+          val daoo=NewsDatabase(getApplication()).favoriteDao()
+
+          val listLong = daoo.insert(*list.toTypedArray())
+        /*  var i = 0
+          while (i < list.size) {
+              list[i].uuid = listLong[i].toInt()
+              i = i + 1
+
+          }*/
+      }
+
+    }
+
 }

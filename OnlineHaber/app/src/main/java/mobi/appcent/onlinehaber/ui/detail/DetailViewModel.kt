@@ -2,12 +2,16 @@ package mobi.appcent.onlinehaber.ui.detail
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import mobi.appcent.onlinehaber.model.Response
+import mobi.appcent.onlinehaber.model.GetNewsResponse
 
 
 class DetailViewModel : ViewModel() {
 
-    val newsLiveData = MutableLiveData<List<Response>>()
+    val newsLiveData = MutableLiveData<List<GetNewsResponse>>()
+
+
+
+
 
 
 }

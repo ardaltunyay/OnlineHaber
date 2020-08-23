@@ -1,33 +1,30 @@
 package mobi.appcent.onlinehaber.ui.countryAndLanguege
 
-import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import kotlinx.android.synthetic.*
 import kotlinx.android.synthetic.main.fragment_country_and_languege_list_dialog.*
-import kotlinx.android.synthetic.main.homepagelayout.view.*
+import kotlinx.android.synthetic.main.fragment_home.*
 import mobi.appcent.onlinehaber.R
 import mobi.appcent.onlinehaber.adapter.HomePageAdapter
+import mobi.appcent.onlinehaber.model.ArticlesItem
 import mobi.appcent.onlinehaber.ui.home.HomeViewModel
+import mobi.appcent.onlinehaber.ui.ınterface.RecyclerViewLongListenerInterface
 
 
-class CountryAndLanguegeFragment : BottomSheetDialogFragment() {
+class CountryAndLanguegeFragment : BottomSheetDialogFragment() , RecyclerViewLongListenerInterface {
 
-    /*
-    * TODO Log için tag verirken daha anlamlı şeyler kullanman işini kolaylaştıracaktır :D
-    *  SharedPreferences işlemleri için sadece o işlemlere özel bir sınıf oluşturabilirsin (Util klasörü içinde)
-    * */
-
+    override fun onLongListeneer(position: Int, list: MutableList<ArticlesItem>) {
+        TODO("Not yet implemented")
+    }
+    val sSharedPreferences=mobi.appcent.onlinehaber.util.SharedPreferences()
     private lateinit var viewModel: HomeViewModel
 
-    private val newsAdapter = HomePageAdapter(arrayListOf())
+    private val newsAdapter = HomePageAdapter(arrayListOf(),this)
 
     var countryAndLanguageValues: String? = null
 
@@ -65,27 +62,27 @@ class CountryAndLanguegeFragment : BottomSheetDialogFragment() {
 
         RadioTurkey.setOnClickListener {
             countryAndLanguageValues = "tr"
-            Log.e("bbbbbbbbbbbbbbbb", "$countryAndLanguageValues")
+
         }
         RadioGermany.setOnClickListener {
             countryAndLanguageValues = "de"
-            Log.e("bbbbbbbbbbbbbbbb", "$countryAndLanguageValues")
+
         }
         RadioABD.setOnClickListener {
             countryAndLanguageValues = "us"
-            Log.e("bbbbbbbbbbbbbbbb", "$countryAndLanguageValues")
+
         }
         RadioSpain.setOnClickListener {
             countryAndLanguageValues = "es"
-            Log.e("bbbbbbbbbbbbbbbb", "$countryAndLanguageValues")
+
         }
         RadioEngland.setOnClickListener {
             countryAndLanguageValues = "ae"
-            Log.e("bbbbbbbbbbbbbbbb", "$countryAndLanguageValues")
+
         }
         RadioFrance.setOnClickListener {
             countryAndLanguageValues = "fr"
-            Log.e("bbbbbbbbbbbbbbbb", "$countryAndLanguageValues")
+
         }
 
 
@@ -95,9 +92,8 @@ class CountryAndLanguegeFragment : BottomSheetDialogFragment() {
 
         select.setOnClickListener {
 
-            viewModel.DetailApiCall("$countryAndLanguageValues")
-            observeLiveData()
-
+            viewModel.detailApiCall("$countryAndLanguageValues")
+            //observeLiveData()
             rememberMe()
             dismiss()
 
@@ -106,7 +102,7 @@ class CountryAndLanguegeFragment : BottomSheetDialogFragment() {
 
     }
 
-    fun observeLiveData() {
+   fun observeLiveData() {
         viewModel.news.observe(viewLifecycleOwner, Observer { news ->
             news?.let {
                 newsAdapter.notifyDataSetChanged()
@@ -116,23 +112,45 @@ class CountryAndLanguegeFragment : BottomSheetDialogFragment() {
             }
 
         })
+       viewModel.loadingProgres.observe(requireActivity(), Observer { loading ->
+
+                 loading?.let {
+                     if (it)
+                     {
+
+
+                         progresbar.visibility=View.VISIBLE
+                     }
+                     else
+                     {
+
+                         progresbar.visibility=View.GONE
+
+                     }
+
+                 }
+
+
+             })
 
     }
 
     fun rememberMe() {
-        val shared = requireActivity().getSharedPreferences("myPreferences", Context.MODE_PRIVATE)
-
-        Log.e("bbbbbbb", "$countryAndLanguageValues")
-        shared.edit().putString("value", countryAndLanguageValues).commit()
-
+        // sade bu sınıfta kullanacaksam shared preferencesi böyle kullanmalıyım
+       // val shared = requireActivity().getSharedPreferences("myPreferences", Context.MODE_PRIVATE)
+        //  shared.edit().putString("value", countryAndLanguageValues).commit()
+        sSharedPreferences.save(requireContext(),countryAndLanguageValues)
 
     }
 
     fun getRememberData() {
-        var shared = requireActivity().getSharedPreferences("myPreferences", Context.MODE_PRIVATE)
-        var values = shared.getString("value", "")
+        // sade bu sınıfta kullanacaksam shared preferencesi böyle kullanmalıyım
+     //   var shared = requireActivity().getSharedPreferences("myPreferences", Context.MODE_PRIVATE)
+      //  var values = shared.getString("value", "")
+        var values=sSharedPreferences.getValue(requireContext())
+
         countryAndLanguageValues=values
-        Log.e("ggggggggg", "$countryAndLanguageValues")
+
         if ("$values" == "tr") {
             RadioTurkey.isChecked = true
 
@@ -151,6 +169,9 @@ class CountryAndLanguegeFragment : BottomSheetDialogFragment() {
         }
         if ("$values" == "fr") {
             RadioFrance.isChecked = true
+        }
+        if ("$values" == "es") {
+            RadioSpain.isChecked = true
         }
 
 

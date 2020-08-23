@@ -1,29 +1,38 @@
 package mobi.appcent.onlinehaber.ui.home
 
+import android.app.AlertDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import kotlinx.android.synthetic.main.favoritealertdialog.view.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import mobi.appcent.onlinehaber.R
 import mobi.appcent.onlinehaber.adapter.HomePageAdapter
-import mobi.appcent.onlinehaber.ui.home.HomeFragmentDirections
+import mobi.appcent.onlinehaber.model.ArticlesItem
+import mobi.appcent.onlinehaber.model.Favorite
+import mobi.appcent.onlinehaber.ui.ınterface.RecyclerViewLongListenerInterface
 
 
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(), RecyclerViewLongListenerInterface {
 
+
+    val arrayList: MutableList<Favorite> = ArrayList()
     companion object {
         fun newInstance() = HomeFragment()
     }
 
+
     private lateinit var viewModel: HomeViewModel
-    val newsAdapter = HomePageAdapter(arrayListOf())
+    val newsAdapter = HomePageAdapter(arrayListOf(),this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,6 +64,7 @@ class HomeFragment : Fragment() {
         countryClick()
         languegeClick()
         searchClick()
+        FavoriteClicked()
     }
 
 
@@ -65,8 +75,30 @@ class HomeFragment : Fragment() {
                 newsAdapter.updateCountryList(news)
             }
 
+
+
         })
 
+        viewModel.loadingProgres.observe(viewLifecycleOwner, Observer { loading ->
+
+            loading?.let {
+                if (it)
+                {
+
+                    recyclerView.visibility=View.GONE
+                    progresbar.visibility=View.VISIBLE
+                }
+                else
+                {
+                    recyclerView.visibility=View.VISIBLE
+                    progresbar.visibility=View.GONE
+
+                }
+
+            }
+
+
+        })
 
     }
 
@@ -133,5 +165,54 @@ class HomeFragment : Fragment() {
 
 
     }
+
+    override fun onLongListeneer(position: Int, list: MutableList<ArticlesItem>) {
+        val layoutInflater: LayoutInflater = LayoutInflater.from(activity)
+        val view: View = layoutInflater.inflate(R.layout.favoritealertdialog, null)
+
+        var publishedAt= list.get(position).publishedAt
+        var author= list.get(position).author
+        var content= list.get(position).content
+        var description= list.get(position).description
+        var title= list.get(position).title
+        var url= list.get(position).url
+        var urlToImage= list.get(position).urlToImage
+        var uuid= list.get(position).uuid
+
+        val alert: AlertDialog.Builder = AlertDialog.Builder(context)
+        alert.setView(view)
+        alert.setCancelable(true)
+        val alertDialog: AlertDialog = alert.create()
+       alertDialog.show()
+
+
+
+               arrayList.clear()
+               arrayList.add(Favorite("$publishedAt","$author","$urlToImage","$description","$title","$url","$content"))
+
+
+
+
+
+        Log.e("arrayy","$arrayList")
+
+        view.favoriInsert.setOnClickListener {
+            viewModel.favoriteSQLite(arrayList)
+            Toast.makeText(context,"Haber Favorilerinize Eklendi",Toast.LENGTH_SHORT).show()
+            alertDialog.cancel()
+        }
+
+
+    }
+    fun FavoriteClicked()
+    {
+        favoriButton.setOnClickListener {
+
+val action=HomeFragmentDirections.actionHomeFragmentToFavoriteFragment()
+            Navigation.findNavController(it).navigate(action)
+        }
+
+    }
+
 }
 

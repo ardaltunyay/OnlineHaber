@@ -3,7 +3,7 @@ package mobi.appcent.onlinehaber.ui.splash
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import mobi.appcent.onlinehaber.MainActivity
+import mobi.appcent.onlinehaber.ui.activity.MainActivity
 import mobi.appcent.onlinehaber.R
 import java.lang.Exception
 
