@@ -19,14 +19,14 @@ import mobi.appcent.onlinehaber.R
 import mobi.appcent.onlinehaber.adapter.HomePageAdapter
 import mobi.appcent.onlinehaber.model.ArticlesItem
 import mobi.appcent.onlinehaber.ui.home.HomeViewModel
-import mobi.appcent.onlinehaber.ui.ınterface.RecyclerViewLongListenerInterface
+import mobi.appcent.onlinehaber.interfaces.RecyclerViewLongListenerInterface
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
 
-class SearchFragment : Fragment() , RecyclerViewLongListenerInterface {
+class SearchFragment : Fragment(), RecyclerViewLongListenerInterface {
 
     /*
     * TODO Dil ve Ülke alanları için recyclerview kullansan daha iyi olabilir
@@ -35,8 +35,9 @@ class SearchFragment : Fragment() , RecyclerViewLongListenerInterface {
     override fun onLongListeneer(position: Int, list: MutableList<ArticlesItem>) {
         TODO("Not yet implemented")
     }
+
     private lateinit var viewModel: HomeViewModel
-    private val newsAdapter = HomePageAdapter(arrayListOf(),this)
+    private val newsAdapter = HomePageAdapter(arrayListOf(), this)
 
     private lateinit var fragmentmanager: FragmentManager
     private lateinit var fragmenttransiction: FragmentTransaction
@@ -53,7 +54,6 @@ class SearchFragment : Fragment() , RecyclerViewLongListenerInterface {
     var languageChek = ""
     var countryCheck = ""
     var popularity = ""
-
     var isRemember = false;
 
     val c = Calendar.getInstance()
@@ -64,19 +64,15 @@ class SearchFragment : Fragment() , RecyclerViewLongListenerInterface {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_search, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(requireActivity()).get(HomeViewModel::class.java)
-
-
         // countryChecked()
         dateButtonClick()
         relaseDateSpinnerClick()
@@ -85,7 +81,6 @@ class SearchFragment : Fragment() , RecyclerViewLongListenerInterface {
         visible()
         languageClick()
         countryClick()
-
     }
 
     fun visible() {
@@ -102,7 +97,6 @@ class SearchFragment : Fragment() , RecyclerViewLongListenerInterface {
         countrySpainSelect.visibility = View.GONE
         countryGermanySelect.visibility = View.GONE
         countryTurkeySelect.visibility = View.GONE
-
     }
 
     public fun languageClick() {
@@ -114,7 +108,7 @@ class SearchFragment : Fragment() , RecyclerViewLongListenerInterface {
             languegeABDSelect.visibility = View.GONE
             languegeSpainSelect.visibility = View.GONE
             languegeFranceSelect.visibility = View.GONE
-            searchTextView.text=("TR/TR")
+            searchTextView.text = ("TR/TR")
         }
         germany.setOnClickListener {
             languageChek = "de"
@@ -124,7 +118,7 @@ class SearchFragment : Fragment() , RecyclerViewLongListenerInterface {
             languegeABDSelect.visibility = View.GONE
             languegeSpainSelect.visibility = View.GONE
             languegeFranceSelect.visibility = View.GONE
-            searchTextView.text=("DE/DE")
+            searchTextView.text = ("DE/DE")
         }
         ABD.setOnClickListener {
             languageChek = "us"
@@ -134,7 +128,7 @@ class SearchFragment : Fragment() , RecyclerViewLongListenerInterface {
             languegeEnglandSelect.visibility = View.GONE
             languegeSpainSelect.visibility = View.GONE
             languegeFranceSelect.visibility = View.GONE
-            searchTextView.text=("US/US")
+            searchTextView.text = ("US/US")
         }
         spanish.setOnClickListener {
             languageChek = "es"
@@ -144,7 +138,7 @@ class SearchFragment : Fragment() , RecyclerViewLongListenerInterface {
             languegeTurkeySelect.visibility = View.GONE
             languegeEnglandSelect.visibility = View.GONE
             languegeFranceSelect.visibility = View.GONE
-            searchTextView.text=("ES/ES")
+            searchTextView.text = ("ES/ES")
         }
         england.setOnClickListener {
             languageChek = "uk"
@@ -154,7 +148,7 @@ class SearchFragment : Fragment() , RecyclerViewLongListenerInterface {
             languegeGermanySelect.visibility = View.GONE
             languegeTurkeySelect.visibility = View.GONE
             languegeFranceSelect.visibility = View.GONE
-            searchTextView.text=("EN/EN")
+            searchTextView.text = ("EN/EN")
         }
         frence.setOnClickListener {
             languageChek = "fr"
@@ -164,9 +158,8 @@ class SearchFragment : Fragment() , RecyclerViewLongListenerInterface {
             languegeABDSelect.visibility = View.GONE
             languegeGermanySelect.visibility = View.GONE
             languegeTurkeySelect.visibility = View.GONE
-            searchTextView.text=("FR/FR")
+            searchTextView.text = ("FR/FR")
         }
-
     }
 
     public fun countryClick() {
@@ -178,7 +171,6 @@ class SearchFragment : Fragment() , RecyclerViewLongListenerInterface {
             countryEnglandSelect.visibility = View.GONE
             countryGermanySelect.visibility = View.GONE
             countrySpainSelect.visibility = View.GONE
-
         }
         germanyCountry.setOnClickListener {
             countryCheck = "de"
@@ -227,7 +219,6 @@ class SearchFragment : Fragment() , RecyclerViewLongListenerInterface {
         }
     }
 
-
     public fun dateButtonClick() {
         dateOne.setOnClickListener {
 
@@ -258,7 +249,6 @@ class SearchFragment : Fragment() , RecyclerViewLongListenerInterface {
                 day
             )
             dpd.show()
-
         }
     }
 
@@ -276,26 +266,18 @@ class SearchFragment : Fragment() , RecyclerViewLongListenerInterface {
                 "$popularity"
             )
             observeLiveData()
-
-
             findNavController().popBackStack()
-
         }
-
     }
 
-
     fun relaseDateSpinnerClick() {
-
         val presentTense = Date()
         val df: DateFormat = SimpleDateFormat("yyyy/MM/dd")
         Log.d("yyyyyyy", "${df.format(presentTense)}")
-
         releaseDateArray.add("Yayın Tarihi")
         releaseDateArray.add("Yeni Haberler")
         releaseDateArray.add("Eski Haberler")
         releaseDateArray.add("Manşetler")
-
         dataAdapter = ArrayAdapter(
             requireContext(),
             android.R.layout.simple_list_item_1,
@@ -304,7 +286,6 @@ class SearchFragment : Fragment() , RecyclerViewLongListenerInterface {
         )
         releaseDate.adapter = dataAdapter
         releaseDate.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-
             override fun onItemSelected(
                 parent: AdapterView<*>?,
                 view: View?,
@@ -326,12 +307,8 @@ class SearchFragment : Fragment() , RecyclerViewLongListenerInterface {
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
-
             }
-
         }
-
-
     }
 
     fun popularityAndSimilaritySpinnerClick() {
@@ -349,7 +326,6 @@ class SearchFragment : Fragment() , RecyclerViewLongListenerInterface {
         popularityAndSimilarityy.adapter = dataAdapterTwo
         popularityAndSimilarityy.onItemSelectedListener =
             object : AdapterView.OnItemSelectedListener {
-
                 override fun onItemSelected(
                     parent: AdapterView<*>?,
                     view: View?,
@@ -371,24 +347,16 @@ class SearchFragment : Fragment() , RecyclerViewLongListenerInterface {
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>?) {
-
                 }
-
             }
     }
 
     fun observeLiveData() {
         viewModel.news.observe(viewLifecycleOwner, Observer { news ->
             news?.let {
-
-
                 newsAdapter.updateCountryList(news)
-
             }
-
         })
-
     }
-
 }
 

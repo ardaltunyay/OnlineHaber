@@ -13,19 +13,18 @@ import mobi.appcent.onlinehaber.R
 import mobi.appcent.onlinehaber.adapter.HomePageAdapter
 import mobi.appcent.onlinehaber.model.ArticlesItem
 import mobi.appcent.onlinehaber.ui.home.HomeViewModel
-import mobi.appcent.onlinehaber.ui.ınterface.RecyclerViewLongListenerInterface
+import mobi.appcent.onlinehaber.interfaces.RecyclerViewLongListenerInterface
 
 
-class CountryAndLanguegeFragment : BottomSheetDialogFragment() , RecyclerViewLongListenerInterface {
+class CountryAndLanguegeFragment : BottomSheetDialogFragment(), RecyclerViewLongListenerInterface {
 
     override fun onLongListeneer(position: Int, list: MutableList<ArticlesItem>) {
         TODO("Not yet implemented")
     }
-    val sSharedPreferences=mobi.appcent.onlinehaber.util.SharedPreferences()
+
+    val sSharedPreferences = mobi.appcent.onlinehaber.util.SharedPreferences()
     private lateinit var viewModel: HomeViewModel
-
-    private val newsAdapter = HomePageAdapter(arrayListOf(),this)
-
+    private val newsAdapter = HomePageAdapter(arrayListOf(), this)
     var countryAndLanguageValues: String? = null
 
     override fun onCreateView(
@@ -40,117 +39,78 @@ class CountryAndLanguegeFragment : BottomSheetDialogFragment() , RecyclerViewLon
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
-
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(requireActivity()).get(HomeViewModel::class.java)
-
-
         radioChecked()
-
         getRememberData()
         butonClick()
-
-
     }
 
-
     public fun radioChecked() {
-
         RadioTurkey.setOnClickListener {
             countryAndLanguageValues = "tr"
-
         }
         RadioGermany.setOnClickListener {
             countryAndLanguageValues = "de"
-
         }
         RadioABD.setOnClickListener {
             countryAndLanguageValues = "us"
-
         }
         RadioSpain.setOnClickListener {
             countryAndLanguageValues = "es"
-
         }
         RadioEngland.setOnClickListener {
             countryAndLanguageValues = "ae"
-
         }
         RadioFrance.setOnClickListener {
             countryAndLanguageValues = "fr"
-
         }
-
-
     }
 
     fun butonClick() {
-
         select.setOnClickListener {
-
             viewModel.detailApiCall("$countryAndLanguageValues")
             //observeLiveData()
             rememberMe()
             dismiss()
-
-
         }
-
     }
 
-   fun observeLiveData() {
+    fun observeLiveData() {
         viewModel.news.observe(viewLifecycleOwner, Observer { news ->
             news?.let {
                 newsAdapter.notifyDataSetChanged()
-
                 newsAdapter.updateCountryList(news)
-
             }
-
         })
-       viewModel.loadingProgres.observe(requireActivity(), Observer { loading ->
-
-                 loading?.let {
-                     if (it)
-                     {
-
-
-                         progresbar.visibility=View.VISIBLE
-                     }
-                     else
-                     {
-
-                         progresbar.visibility=View.GONE
-
-                     }
-
-                 }
-
-
-             })
-
+        viewModel.loadingProgres.observe(requireActivity(), Observer { loading ->
+            loading?.let {
+                if (it) {
+                    progresbar.visibility = View.VISIBLE
+                } else {
+                    progresbar.visibility = View.GONE
+                }
+            }
+        })
     }
 
     fun rememberMe() {
         // sade bu sınıfta kullanacaksam shared preferencesi böyle kullanmalıyım
-       // val shared = requireActivity().getSharedPreferences("myPreferences", Context.MODE_PRIVATE)
+        // val shared = requireActivity().getSharedPreferences("myPreferences", Context.MODE_PRIVATE)
         //  shared.edit().putString("value", countryAndLanguageValues).commit()
-        sSharedPreferences.save(requireContext(),countryAndLanguageValues)
-
+        sSharedPreferences.save(requireContext(), countryAndLanguageValues)
     }
 
     fun getRememberData() {
         // sade bu sınıfta kullanacaksam shared preferencesi böyle kullanmalıyım
-     //   var shared = requireActivity().getSharedPreferences("myPreferences", Context.MODE_PRIVATE)
-      //  var values = shared.getString("value", "")
-        var values=sSharedPreferences.getValue(requireContext())
+        //   var shared = requireActivity().getSharedPreferences("myPreferences", Context.MODE_PRIVATE)
+        //  var values = shared.getString("value", "")
+        var values = sSharedPreferences.getValue(requireContext())
 
-        countryAndLanguageValues=values
-
+        countryAndLanguageValues = values
         if ("$values" == "tr") {
             RadioTurkey.isChecked = true
 
@@ -173,9 +133,5 @@ class CountryAndLanguegeFragment : BottomSheetDialogFragment() , RecyclerViewLon
         if ("$values" == "es") {
             RadioSpain.isChecked = true
         }
-
-
     }
-
-
 }

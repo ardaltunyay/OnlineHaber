@@ -10,15 +10,14 @@ import mobi.appcent.onlinehaber.model.Favorite
 interface FavoriteDao {
 
     @Insert
-    suspend fun insert(vararg news:Favorite) :List<Long>
-
+    suspend fun insert(vararg news: Favorite): List<Long>
 
     @Query("SELECT * FROM Favorite")
-    suspend fun select() : List<Favorite>
+    suspend fun select(): List<Favorite>
 
     @Query("SELECT * FROM Favorite WHERE uuid= :favoriteId")
-    suspend fun selectId(favoriteId : Int) :Favorite
+    suspend fun selectId(favoriteId: Int): Favorite
 
     @Query("DELETE FROM Favorite WHERE uuid= :favoriteId")
-    suspend fun delete(favoriteId :Int)
+    suspend fun delete(favoriteId: Int)
 }

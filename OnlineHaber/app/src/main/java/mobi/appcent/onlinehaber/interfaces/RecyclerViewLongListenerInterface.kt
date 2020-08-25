@@ -1,4 +1,4 @@
-package mobi.appcent.onlinehaber.ui.ınterface
+package mobi.appcent.onlinehaber.interfaces
 
 import mobi.appcent.onlinehaber.adapter.HomePageAdapter
 import mobi.appcent.onlinehaber.model.ArticlesItem

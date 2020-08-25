@@ -9,18 +9,42 @@
         android:orientation="vertical"
         tools:context=".ui.detail.DetailFragment">
 
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:background="#3a84db"
+            app:layout_constraintBottom_toTopOf="@+id/detailWebView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="0dp"
+
+            android:layout_marginEnd="0dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/backImage"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:background="@drawable/arrowtr" />
+        </androidx.appcompat.widget.Toolbar>
 
         <WebView
             android:id="@+id/detailWebView"
-            android:layout_width="417dp"
-            android:layout_height="584dp"
-            android:layout_marginStart="1dp"
-            android:layout_marginTop="1dp"
-            android:layout_marginEnd="1dp"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="0dp"
+
+            android:layout_marginEnd="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" >
+            app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
             <ProgressBar
                 android:id="@+id/progressBar"

@@ -8,7 +8,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.launch
-import mobi.appcent.onlinehaber.ui.viewModel.BaseViewModel
+import mobi.appcent.onlinehaber.base.BaseViewModel
 import mobi.appcent.onlinehaber.database.NewsDatabase
 
 import mobi.appcent.onlinehaber.model.ArticlesItem
@@ -20,39 +20,36 @@ import mobi.appcent.onlinehaber.util.CustomSharedPreferences
 
 class HomeViewModel(application: Application) : BaseViewModel(application) {
 
-    private var customSharedPreferences=CustomSharedPreferences(getApplication())
+    private var customSharedPreferences = CustomSharedPreferences(getApplication())
     private val newsApiService = NewsAPIService()
-    val disposable = CompositeDisposable()
+
     var news = MutableLiveData<List<ArticlesItem>>()
     var loadingProgres = MutableLiveData<Boolean>()
-    var refreshTime= 10*60*1000*1000*1000L
+    var refreshTime = 10 * 60 * 1000 * 1000 * 1000L
 
+    override fun onCleared() {
+
+        super.onCleared()
+
+    }
     fun homeApiCall() {
-        val updateTime=customSharedPreferences.getTime()
-        if (updateTime !=null && updateTime !=0L && System.nanoTime()-updateTime<refreshTime)
-        {
+        val updateTime = customSharedPreferences.getTime()
+        if (updateTime != null && updateTime != 0L && System.nanoTime() - updateTime < refreshTime) {
             getDataFromSQLite()
-
-        }
-       else{
-
+        } else {
             homeGetDataApi()
         }
     }
 
-    private fun getDataFromSQLite()
-    {
-
+    private fun getDataFromSQLite() {
         launch {
-
-            val newss=NewsDatabase(getApplication()).newsDao().getAllNews()
-             showNews(newss)
-            Toast.makeText(getApplication(),"SQL den alındı11",Toast.LENGTH_SHORT).show()
+            val newss = NewsDatabase(getApplication()).newsDao().getAllNews()
+            showNews(newss)
+            Toast.makeText(getApplication(), "SQL den alındı11", Toast.LENGTH_SHORT).show()
         }
-
     }
-    fun detailApiCall(country: String) {
 
+    fun detailApiCall(country: String) {
         detailGetApi(country)
     }
 
@@ -65,12 +62,11 @@ class HomeViewModel(application: Application) : BaseViewModel(application) {
         date: String,
         sortBy: String
     ) {
-
         searchGetApi(currentType, countryText, hoodText, language, from, date, sortBy)
     }
 
     private fun homeGetDataApi() {
-       loadingProgres.value = true
+        loadingProgres.value = true
         disposable.add(
             newsApiService.getNewsApi()
                 .getNews("apple", "2020-08-08,", "popularity", ApiKey.API_KEY)
@@ -79,30 +75,25 @@ class HomeViewModel(application: Application) : BaseViewModel(application) {
                 .subscribe(
                     {
                         it.articles?.let { it1 -> storeInSQLite(it1) }
-                        Toast.makeText(getApplication(),"internetten den alındı11",Toast.LENGTH_SHORT).show()
-
+                        Toast.makeText(
+                            getApplication(),
+                            "internetten den alındı11",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     },
                     {
                         Log.d("API", it.message)
                     }
                 )
         )
-
-
-
     }
 
-   override fun onCleared() {
-        super.onCleared()
-        disposable.clear()
 
-    }
 
     /*https://newsapi.org/v2/top-headlines?country=us&apiKey=632731ff030d44a3885c56f99b626125*/
     public fun detailGetApi(country: String) {
         loadingProgres.value = true
         disposable.add(
-
             newsApiService.getNewsApi()
                 .getNewsCountryAndLanguege("$country", ApiKey.API_KEY)
                 .subscribeOn(Schedulers.io())
@@ -116,8 +107,6 @@ class HomeViewModel(application: Application) : BaseViewModel(application) {
                     }
                 )
         )
-
-
     }
 
     public fun searchGetApi(
@@ -131,7 +120,6 @@ class HomeViewModel(application: Application) : BaseViewModel(application) {
     ) {
         loadingProgres.value = true
         disposable.add(
-
             newsApiService.getNewsApi()
                 .getSearch(
                     "$currentType",
@@ -155,17 +143,14 @@ class HomeViewModel(application: Application) : BaseViewModel(application) {
                     }
                 )
         )
-
     }
 
-  private fun showNews(newsList: List<ArticlesItem>) {
+    private fun showNews(newsList: List<ArticlesItem>) {
         news.value = newsList
-      loadingProgres.value = false
-
+        loadingProgres.value = false
     }
 
     private fun storeInSQLite(list: List<ArticlesItem>) {
-
         launch {
             val dao = NewsDatabase(getApplication()).newsDao()
             dao.deleteAllNews()
@@ -174,28 +159,22 @@ class HomeViewModel(application: Application) : BaseViewModel(application) {
             while (i < list.size) {
                 list[i].uuid = listLong[i].toInt()
                 i = i + 1
-
             }
-           showNews(list)
-         }
-
-customSharedPreferences.saveTime(System.nanoTime())
+            showNews(list)
+        }
+        customSharedPreferences.saveTime(System.nanoTime())
     }
 
-    fun favoriteSQLite(list:MutableList<Favorite>)
-    {
-      launch {
-          val daoo=NewsDatabase(getApplication()).favoriteDao()
+    fun favoriteSQLite(list: MutableList<Favorite>) {
+        launch {
+            val daoo = NewsDatabase(getApplication()).favoriteDao()
+            val listLong = daoo.insert(*list.toTypedArray())
+            /*  var i = 0
+              while (i < list.size) {
+                  list[i].uuid = listLong[i].toInt()
+                  i = i + 1
 
-          val listLong = daoo.insert(*list.toTypedArray())
-        /*  var i = 0
-          while (i < list.size) {
-              list[i].uuid = listLong[i].toInt()
-              i = i + 1
-
-          }*/
-      }
-
+              }*/
+        }
     }
-
 }

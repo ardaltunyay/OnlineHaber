@@ -19,20 +19,18 @@ import mobi.appcent.onlinehaber.R
 import mobi.appcent.onlinehaber.adapter.HomePageAdapter
 import mobi.appcent.onlinehaber.model.ArticlesItem
 import mobi.appcent.onlinehaber.model.Favorite
-import mobi.appcent.onlinehaber.ui.ınterface.RecyclerViewLongListenerInterface
+import mobi.appcent.onlinehaber.interfaces.RecyclerViewLongListenerInterface
 
 
 class HomeFragment : Fragment(), RecyclerViewLongListenerInterface {
-
-
     val arrayList: MutableList<Favorite> = ArrayList()
+
     companion object {
         fun newInstance() = HomeFragment()
     }
 
-
     private lateinit var viewModel: HomeViewModel
-    val newsAdapter = HomePageAdapter(arrayListOf(),this)
+    val newsAdapter = HomePageAdapter(arrayListOf(), this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,14 +49,8 @@ class HomeFragment : Fragment(), RecyclerViewLongListenerInterface {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         observeLiveData()
-
-
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = newsAdapter
-
-
-
-
         visible()
         recyclerLine()
         countryClick()
@@ -67,58 +59,39 @@ class HomeFragment : Fragment(), RecyclerViewLongListenerInterface {
         FavoriteClicked()
     }
 
-
     fun observeLiveData() {
         viewModel.news.observe(viewLifecycleOwner, Observer { news ->
             news?.let {
                 recyclerView.visibility = View.VISIBLE
                 newsAdapter.updateCountryList(news)
             }
-
-
-
         })
-
         viewModel.loadingProgres.observe(viewLifecycleOwner, Observer { loading ->
-
             loading?.let {
-                if (it)
-                {
-
-                    recyclerView.visibility=View.GONE
-                    progresbar.visibility=View.VISIBLE
+                if (it) {
+                    recyclerView.visibility = View.GONE
+                    progresbar.visibility = View.VISIBLE
+                } else {
+                    recyclerView.visibility = View.VISIBLE
+                    progresbar.visibility = View.GONE
                 }
-                else
-                {
-                    recyclerView.visibility=View.VISIBLE
-                    progresbar.visibility=View.GONE
-
-                }
-
             }
-
-
         })
-
     }
 
     fun visible() {
         languege.visibility = View.GONE
         county.visibility = View.GONE
         filter.setOnClickListener {
-
             if (languege.visibility == View.GONE && county.visibility == View.GONE) {
                 languege.visibility = View.VISIBLE
                 county.visibility = View.VISIBLE
                 search.visibility = View.GONE
-
             } else {
                 languege.visibility = View.GONE
                 county.visibility = View.GONE
                 search.visibility = View.VISIBLE
             }
-
-
         }
     }
 
@@ -129,31 +102,23 @@ class HomeFragment : Fragment(), RecyclerViewLongListenerInterface {
                 DividerItemDecoration.VERTICAL
             )
         )
-
-
     }
 
     fun languegeClick() {
         languege.setOnClickListener {
             val action =
                 HomeFragmentDirections.actionHomeFragmentToCountryAndLanguegeFragment()
-
             Navigation.findNavController(it).navigate(action)
-        }
 
+        }
     }
 
     fun countryClick() {
-
-
         county.setOnClickListener {
             val action =
                 HomeFragmentDirections.actionHomeFragmentToCountryAndLanguegeFragment()
             Navigation.findNavController(it).navigate(action)
-
-
         }
-
     }
 
     fun searchClick() {
@@ -162,57 +127,51 @@ class HomeFragment : Fragment(), RecyclerViewLongListenerInterface {
                 HomeFragmentDirections.actionHomeFragmentToSearchFragment()
             Navigation.findNavController(it).navigate(action)
         }
-
-
     }
 
     override fun onLongListeneer(position: Int, list: MutableList<ArticlesItem>) {
         val layoutInflater: LayoutInflater = LayoutInflater.from(activity)
         val view: View = layoutInflater.inflate(R.layout.favoritealertdialog, null)
 
-        var publishedAt= list.get(position).publishedAt
-        var author= list.get(position).author
-        var content= list.get(position).content
-        var description= list.get(position).description
-        var title= list.get(position).title
-        var url= list.get(position).url
-        var urlToImage= list.get(position).urlToImage
-        var uuid= list.get(position).uuid
+        var publishedAt = list.get(position).publishedAt
+        var author = list.get(position).author
+        var content = list.get(position).content
+        var description = list.get(position).description
+        var title = list.get(position).title
+        var url = list.get(position).url
+        var urlToImage = list.get(position).urlToImage
+        var uuid = list.get(position).uuid
 
         val alert: AlertDialog.Builder = AlertDialog.Builder(context)
         alert.setView(view)
         alert.setCancelable(true)
         val alertDialog: AlertDialog = alert.create()
-       alertDialog.show()
-
-
-
-               arrayList.clear()
-               arrayList.add(Favorite("$publishedAt","$author","$urlToImage","$description","$title","$url","$content"))
-
-
-
-
-
-        Log.e("arrayy","$arrayList")
-
+        alertDialog.show()
+        arrayList.clear()
+        arrayList.add(
+            Favorite(
+                "$publishedAt",
+                "$author",
+                "$urlToImage",
+                "$description",
+                "$title",
+                "$url",
+                "$content"
+            )
+        )
+        Log.e("arrayy", "$arrayList")
         view.favoriInsert.setOnClickListener {
             viewModel.favoriteSQLite(arrayList)
-            Toast.makeText(context,"Haber Favorilerinize Eklendi",Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Haber Favorilerinize Eklendi", Toast.LENGTH_SHORT).show()
             alertDialog.cancel()
         }
-
-
     }
-    fun FavoriteClicked()
-    {
-        favoriButton.setOnClickListener {
 
-val action=HomeFragmentDirections.actionHomeFragmentToFavoriteFragment()
+    fun FavoriteClicked() {
+        favoriButton.setOnClickListener {
+            val action = HomeFragmentDirections.actionHomeFragmentToFavoriteFragment()
             Navigation.findNavController(it).navigate(action)
         }
-
     }
-
 }
 

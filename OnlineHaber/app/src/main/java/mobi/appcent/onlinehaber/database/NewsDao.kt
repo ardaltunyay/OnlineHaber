@@ -9,14 +9,13 @@ import mobi.appcent.onlinehaber.model.ArticlesItem
 interface NewsDao {
     //ekleme işlemleri burada yapılacak
     @Insert
-    suspend fun insertAll(vararg news:ArticlesItem) :List<Long>
-
+    suspend fun insertAll(vararg news: ArticlesItem): List<Long>
 
     @Query("SELECT * FROM ArticlesItem")
-    suspend fun getAllNews() : List<ArticlesItem>
+    suspend fun getAllNews(): List<ArticlesItem>
 
     @Query("SELECT * FROM ArticlesItem WHERE uuid= :newsId")
-    suspend fun getNews(newsId : Int) :ArticlesItem
+    suspend fun getNews(newsId: Int): ArticlesItem
 
     @Query("DELETE FROM ArticlesItem")
     suspend fun deleteAllNews()
