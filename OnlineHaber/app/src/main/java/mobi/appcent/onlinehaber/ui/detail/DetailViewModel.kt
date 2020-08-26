@@ -6,12 +6,5 @@ import mobi.appcent.onlinehaber.model.GetNewsResponse
 
 
 class DetailViewModel : ViewModel() {
-
     val newsLiveData = MutableLiveData<List<GetNewsResponse>>()
-
-
-
-
-
-
 }

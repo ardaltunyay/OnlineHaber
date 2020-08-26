@@ -65,6 +65,10 @@
     </fragment>
     <fragment
         android:id="@+id/favoriteFragment"
-        android:name="mobi.appcent.onlinehaber.ui.favori.FavoriteFragment"
-        android:label="FavoriteFragment" />
+        android:name="mobi.appcent.onlinehaber.ui.favorite.FavoriteFragment"
+        android:label="FavoriteFragment" >
+        <action
+            android:id="@+id/action_favoriteFragment_to_detailFragment"
+            app:destination="@id/detailFragment" />
+    </fragment>
 </navigation>

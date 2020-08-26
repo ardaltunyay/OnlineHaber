@@ -11,20 +11,16 @@ fun ImageView.downloadFromUrl(url: String?, progressDrawable: CircularProgressDr
     val options = RequestOptions()
         .placeholder(progressDrawable)
         .error(R.mipmap.ic_launcher_round)
-
     Glide.with(context)
         .setDefaultRequestOptions(options)
         .load(url)
         .into(this)
-
 }
 
 fun placeHolderProgressBar(context: Context): CircularProgressDrawable {
-
     return CircularProgressDrawable(context).apply {
         strokeWidth = 8f
         centerRadius = 40f
         start()
     }
-
 }

@@ -13,11 +13,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"
+        android:id="@+id/aa"
         android:layout_centerInParent="true"
         android:background="@drawable/splash">
 
-
     </ImageView>
 
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/aa"
+
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="-56dp" />
 
 </RelativeLayout>

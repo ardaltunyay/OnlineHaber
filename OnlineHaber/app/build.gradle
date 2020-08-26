@@ -94,5 +94,9 @@ dependencies {
     implementation "com.android.support:design:$supportVersion"
 
     implementation "androidx.preference:preference:$preferencesVersion"
+    implementation 'com.github.varunest:sparkbutton:1.0.6'
+
+
+    implementation 'com.github.traex.rippleeffect:library:1.3'
 }
 

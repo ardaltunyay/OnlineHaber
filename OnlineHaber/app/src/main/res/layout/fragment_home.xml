@@ -70,7 +70,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
-                        android:layout_height="wrap_content"/>
+
 
 
                         <LinearLayout
@@ -87,11 +87,11 @@
                                 android:layout_height="35dp"
                                 android:layout_marginRight="5dp"
                                 android:layout_weight=".50"
-                                android:background="@drawable/cornerbuttonnn"
+                                android:background="@drawable/effect_button"
                                 android:drawableEnd="@drawable/sss"
                                 android:paddingLeft="15dp"
                                 android:paddingRight="15dp"
-                                android:text="Ara"
+                                android:hint="Ara"
                                 android:textColor="#b4b3b3"
                                 android:textSize="13sp" />
 
@@ -100,11 +100,11 @@
                                 android:layout_width="0dp"
                                 android:layout_height="35dp"
                                 android:layout_weight=".50"
-                                android:background="@drawable/cornerbuttonnn"
+                                android:background="@drawable/effect_button"
                                 android:drawableEnd="@drawable/sss"
                                 android:paddingLeft="17dp"
                                 android:paddingRight="15dp"
-                                android:text="Filtrele"
+                                android:hint="Filtrele"
 
 
                                 android:textColor="#b4b3b3"
@@ -126,11 +126,11 @@
                                 android:layout_height="35dp"
                                 android:layout_marginRight="5dp"
                                 android:layout_weight=".50"
-                                android:background="@drawable/cornerbuttonnn"
+                                android:background="@drawable/effect_button"
                                 android:drawableEnd="@drawable/sss"
                                 android:paddingLeft="15dp"
                                 android:paddingRight="15dp"
-                                android:text="Ükle Seç"
+                                android:hint="Ülke Seç"
                                 android:textColor="#b4b3b3"
                                 android:textSize="13sp" />
 
@@ -139,11 +139,11 @@
                                 android:layout_width="0dp"
                                 android:layout_height="35dp"
                                 android:layout_weight=".50"
-                                android:background="@drawable/cornerbuttonnn"
+                                android:background="@drawable/effect_button"
                                 android:drawableEnd="@drawable/sss"
                                 android:paddingLeft="15dp"
                                 android:paddingRight="15dp"
-                                android:text="Dil Seç"
+                                android:hint="Dil Seç"
                                 android:textColor="#b4b3b3"
                                 android:textSize="13sp" />
 

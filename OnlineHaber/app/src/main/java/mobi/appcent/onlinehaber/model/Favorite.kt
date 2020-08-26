@@ -6,33 +6,27 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class Favorite(
-    @ColumnInfo(name="publishedAt")
+    @ColumnInfo(name = "publishedAt")
     var publishedAt: String? = null,
 
-    @ColumnInfo(name="author")
+    @ColumnInfo(name = "author")
     var author: String? = null,
 
-    @ColumnInfo(name="urlToImage")
+    @ColumnInfo(name = "urlToImage")
     var urlToImage: String? = null,
 
-    @ColumnInfo(name="description")
+    @ColumnInfo(name = "description")
     var description: String? = null,
 
-    @ColumnInfo(name="title")
+    @ColumnInfo(name = "title")
     var title: String? = null,
 
-    @ColumnInfo(name="url")
+    @ColumnInfo(name = "url")
     var url: String? = null,
 
-    @ColumnInfo(name="content")
+    @ColumnInfo(name = "content")
     var content: String? = null
-
-
-
-
-)
-{
-
+) {
     @PrimaryKey(autoGenerate = true)
-    var uuid:Int=0
+    var uuid: Int = 0
 }
